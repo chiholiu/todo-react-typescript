@@ -27,12 +27,17 @@ export const App: React.FC = () => {
   }
 
   const addTodo: AddTodo = newTodo => {
+    console.log('addTodo')
     newTodo.trim() !== "" && setTodos([...todos, { text: newTodo, complete: false }]);
+  }
+
+  const deleteTodo: DeleteTodo = currentTodo => {
+    setTodos(todos.filter(item => item !== currentTodo));
   }
 
   return (
     <React.Fragment>
-      <TodoList todos={todos} toggleTodo={toggleTodo}/>
+      <TodoList todos={todos} toggleTodo={toggleTodo} deleteTodo={deleteTodo} />
       <AddTodoForm addTodo={addTodo}/>
     </React.Fragment>
   )
