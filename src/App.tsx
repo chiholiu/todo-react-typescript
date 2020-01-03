@@ -12,7 +12,9 @@ export const App: React.FC = () => {
   const [todos, setTodos] = useState(initialTodos);
 
   const toggleTodo: ToggleTodo = selectedTodo => {
+
     const newTodos = todos.map(todo => {
+      console.log('selectedTodo ' + selectedTodo);
       if(todo === selectedTodo) {
         return {
           ...todo,
@@ -25,7 +27,7 @@ export const App: React.FC = () => {
   }
 
   const addTodo: AddTodo = newTodo => {
-    setTodos([...todos, { text: newTodo, complete: false }]);
+    newTodo.trim() !== "" && setTodos([...todos, { text: newTodo, complete: false }]);
   }
 
   return (
