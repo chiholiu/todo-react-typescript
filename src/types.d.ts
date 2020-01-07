@@ -1,4 +1,5 @@
 type Todo = {
+    id: number;
     text: string;
     complete: boolean;
     edit: boolean;
@@ -12,6 +13,6 @@ type DeleteTodo = (currentTodo: Todo) => void;
 
 type EditTodo = (editCurrentTodo: Todo) => void;
 
-type GetEditText = (getEditedTodo: string) => void;
+type GetEditText = (todoId: number, getEditedTodo: string) => void;
 
 type SaveEditedTodo = (saveEditedTodo: Todo) => void;

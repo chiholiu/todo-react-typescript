@@ -7,6 +7,8 @@ const initialTodos: Array<Todo> = [
 
 ]
 
+let id = 0;
+
 export const App: React.FC = () => {
   const [todos, setTodos] = useState(initialTodos);
 
@@ -40,20 +42,45 @@ export const App: React.FC = () => {
     setTodos(editTodo);
   }
 
+
+
   const addTodo: AddTodo = newTodo => {
-    newTodo.trim() !== "" && setTodos([...todos, { text: newTodo, complete: false, edit: false }]);
+    newTodo.trim() !== "" &&  setTodos([...todos, {id: id++, text: newTodo, complete: false, edit: false }]);
   }
 
   const deleteTodo: DeleteTodo = currentTodo => {
     setTodos(todos.filter(item => item !== currentTodo));
   }
 
-  const getEditText: GetEditText = getEditedTodo => {
-    console.log('getEditText ' + getEditedTodo);
+  const getEditText: GetEditText = (todoId, getEditedTodo)=> {
+    const editTodo = todos.map(todo => {
+
+      if(todo.id === todoId) {
+        return {
+          ...todo,
+          text: getEditedTodo,
+          edit: true
+        }
+      }
+      return todo;
+    });
+
+    setTodos(editTodo);
   }
 
   const saveEditedTodo: SaveEditedTodo = currentTodo => {
-    console.log('saveEditedTodo ' + JSON.stringify(currentTodo.text));
+    const saveEditedTodo = todos.map(todo => {
+
+      if(todo.id === currentTodo.id) {
+        return {
+          ...todo,
+          edit: false
+        }
+      }
+      return todo
+    });
+    
+    setTodos(saveEditedTodo);
   }
 
   return (
