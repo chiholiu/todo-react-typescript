@@ -1,11 +1,11 @@
 import React, { FC, useState } from "react";
 import "./App.css";
 import { TodoList } from "./TodoList";
+import { TodoFilter } from "./TodoFilter";
 import { AddTodoForm } from "./AddTodoForm";
 
-const initialTodos: Array<Todo> = [
 
-]
+const initialTodos: Array<Todo> = []
 
 let id = 0;
 
@@ -79,13 +79,40 @@ export const App: React.FC = () => {
       }
       return todo
     });
-    
+
     setTodos(saveEditedTodo);
   }
 
+  const currentFilter: CurrentFilter = filterTodo => {
+    let activeFilter = filterTodo;
+    switch (activeFilter) {
+      case 'All':
+        console.log(todos);
+        return todos;
+      case 'Complete':
+        console.log(todos.filter(t => t.complete));
+        return todos.filter(t => t.complete);
+      case 'Incomplete':
+        console.log(todos.filter(t => !t.complete));
+        return todos.filter(t => !t.complete);
+       default:
+        console.log('Default');
+    }
+  }
+
+  console.log(currentFilter);
   return (
     <React.Fragment>
-      <TodoList todos={todos} toggleTodo={toggleTodo} deleteTodo={deleteTodo} editTodo={editTodo} saveEditedTodo={saveEditedTodo} getEditText={getEditText}/>
+      <TodoList 
+        todos={todos} 
+        toggleTodo={toggleTodo} 
+        deleteTodo={deleteTodo} 
+        editTodo={editTodo} 
+        saveEditedTodo={saveEditedTodo} 
+        getEditText={getEditText}
+        currentFilter={currentFilter}
+      />
+      <TodoFilter currentFilter={currentFilter}/>
       <AddTodoForm addTodo={addTodo}/>
     </React.Fragment>
   )
