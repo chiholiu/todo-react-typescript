@@ -1,9 +1,8 @@
-import React, { FC, useState } from "react";
+import React, { FC, useState, useReducer, useEffect } from "react";
 import "./App.css";
 import { TodoList } from "./TodoList";
-import { TodoFilter } from "./TodoFilter";
 import { AddTodoForm } from "./AddTodoForm";
-
+import { TodoFilter } from './TodoFilter';
 
 const initialTodos: Array<Todo> = []
 
@@ -11,6 +10,11 @@ let id = 0;
 
 export const App: React.FC = () => {
   const [todos, setTodos] = useState(initialTodos);
+  const [filtered, setFiltered] = useState(initialTodos);
+
+  useEffect(() => {
+    setFiltered(todos);
+  }, [todos]);
 
   const toggleTodo: ToggleTodo = selectedTodo => {
     const newTodos = todos.map(todo => {
@@ -41,8 +45,6 @@ export const App: React.FC = () => {
 
     setTodos(editTodo);
   }
-
-
 
   const addTodo: AddTodo = newTodo => {
     newTodo.trim() !== "" &&  setTodos([...todos, {id: id++, text: newTodo, complete: false, edit: false }]);
@@ -83,34 +85,34 @@ export const App: React.FC = () => {
     setTodos(saveEditedTodo);
   }
 
-  const currentFilter: CurrentFilter = filterTodo => {
-    let activeFilter = filterTodo;
-    switch (activeFilter) {
+  const currentFilter: CurrentFilter = (filteredTodo) => {
+    switch(filteredTodo) {
       case 'All':
-        console.log(todos);
-        return todos;
+        setFiltered(todos);
+        break;
       case 'Complete':
-        console.log(todos.filter(t => t.complete));
-        return todos.filter(t => t.complete);
+        setFiltered(todos.filter(t => t.complete));
+        break;
       case 'Incomplete':
-        console.log(todos.filter(t => !t.complete));
-        return todos.filter(t => !t.complete);
-       default:
-        console.log('Default');
+        setFiltered(todos.filter(t => !t.complete));
+        break;
+      default:
+        console.log('default fallback currentFilter');
+        break;
     }
   }
 
-  console.log(currentFilter);
+  console.log(filtered);
+
   return (
     <React.Fragment>
       <TodoList 
-        todos={todos} 
+        todos={filtered} 
         toggleTodo={toggleTodo} 
         deleteTodo={deleteTodo} 
         editTodo={editTodo} 
         saveEditedTodo={saveEditedTodo} 
         getEditText={getEditText}
-        currentFilter={currentFilter}
       />
       <TodoFilter currentFilter={currentFilter}/>
       <AddTodoForm addTodo={addTodo}/>

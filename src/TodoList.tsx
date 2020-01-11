@@ -8,10 +8,9 @@ interface TodoListProps {
     editTodo: EditTodo;
     getEditText: GetEditText;
     saveEditedTodo: SaveEditedTodo;
-    currentFilter: CurrentFilter;
 }
 
-export const TodoList: React.FC<TodoListProps> = ({ todos, toggleTodo, deleteTodo, editTodo, getEditText, saveEditedTodo, currentFilter }) => {
+export const TodoList: React.FC<TodoListProps> = ({ todos, toggleTodo, deleteTodo, editTodo, getEditText, saveEditedTodo }) => {
     return (
         <ul>
             {todos.map((todo, i) => {

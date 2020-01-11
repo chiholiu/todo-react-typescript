@@ -17,4 +17,7 @@ type GetEditText = (todoId: number, getEditedTodo: string) => void;
 
 type SaveEditedTodo = (saveEditedTodo: Todo) => void;
 
-type CurrentFilter = (currentFilter: string) => void;
+type CurrentFilter = (filteredTodo: string) => void;
+ 
+type Filtered = (filtered: string) => void;
+
